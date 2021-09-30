@@ -86,9 +86,9 @@ makeAllCaps(complicatedArray)
     .catch(foutje => console.log(foutje))   
 
 
-// de fouten/errors (catch) bij complicatedArray(2) worden als laatste gelogd
+// de fouten/errors (catch) bij complicatedArray worden als laatste gelogd
 // maar niet als de functie sortWords  in de resolve() van makeAllCaps wordt aangeroepen
 // Dan wordt de catch als eerste gelogd
-// Verder is het mij onduidelijk wanneer de reject() foutmelding in sortWords(sortWords2) wordt gelogd
+// Verder is het mij onduidelijk wanneer de reject() foutmelding in sortWords wordt gelogd
 // Zoals ik het nu begrijp, komen we daar nooit terecht,
 // omdat met makeAllCaps dit ondervangen wordt (wanneer geen string, reject)
