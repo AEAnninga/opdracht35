@@ -67,7 +67,7 @@ const complicatedArray = ['cucumber', 44, true];
 // call both functions, chain them together and log the result to the console
 
 makeAllCaps(arrayOfWords) // checkt elk item van arrayOfWords of het een string is of niet en zoja, hoofdletters
-    .then(sortWords(arrayOfWords)) 
+    .then(arrayAllCaps => sortWords(arrayAllCaps)) 
 // Bovenstaande regel staat in de oplossing, maar is volgens mij niet nodig, omdat sortWords al 
 // wordt aangeroepen in makeAllCaps met resolve(sortWords(words.map(word => word.toUpperCase())))
 // Dus sortWords binnen makeAllCaps gebruikt hetzelfde argument als in makeAllCaps zelf
@@ -75,7 +75,7 @@ makeAllCaps(arrayOfWords) // checkt elk item van arrayOfWords of het een string 
 // Dus om nog een keer .then te gebruiken voor sortWords lijkt me dubbel? 
 // Wat het wel doet is dat de resolve (als alles een string is) als LAATSTE wordt gelogd
 // wanneer de regel 'uit' staat, dan komt hij voor de foutmelding vd complicatedArray
-    .then(result => console.log(result))
+    .then(sortedWordsAllCaps => console.log(sortedWordsAllCaps))
     .catch(err => console.log(err));
 
 makeAllCaps(complicatedArray)
@@ -92,3 +92,38 @@ makeAllCaps(complicatedArray)
 // Verder is het mij onduidelijk wanneer de reject() foutmelding in sortWords wordt gelogd
 // Zoals ik het nu begrijp, komen we daar nooit terecht,
 // omdat met makeAllCaps dit ondervangen wordt (wanneer geen string, reject)
+
+// Nu ZONDER sortWords in makeAllCaps:
+const makeAllCaps2 = words => {
+    return new Promise((resolve, reject) => {
+        if(words.every(word => typeof word === 'string')) { 
+            resolve( 
+                words.map(word => word.toUpperCase())   
+            )
+        } else {
+            reject('This is not a string!') 
+        }        
+    })     
+};  
+const sortWords2 = words => {
+    return new Promise((resolve, reject) => {
+        if (words) { 
+            resolve(words.sort());  
+        } else { 
+            reject('Not a string!')
+        }
+    })
+};
+
+const arrayOfWords2 = ['cucumber', 'tomatos', 'avocado', 'citron', 'strawberry'];
+const complicatedArray2 = ['cucumber', 44, true];
+
+makeAllCaps2(arrayOfWords2) 
+    .then(arrayAllCaps => sortWords2(arrayAllCaps))
+    .then(sortedWordsAllCaps => console.log(sortedWordsAllCaps))
+    .catch(err => console.log(err));
+
+makeAllCaps2(complicatedArray2)
+    .then(arrayAllCaps => sortWords(arrayAllCaps))
+    .then(sortedWordsAllCaps => console.log(sortedWordsAllCaps))
+    .catch(foutje => console.log(foutje))  
